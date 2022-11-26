@@ -14,7 +14,7 @@ import { PastTrainingComponent } from './training/past-training/past-training.co
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MatDatepicker } from '@angular/material/datepicker';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
     MaterialModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   bootstrap: [AppComponent]
 })
