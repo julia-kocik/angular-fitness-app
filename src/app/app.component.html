@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="toolbar-logo"><a routerLink="/">LOGO</a></div>
-            <div class="toolbar-nav">
+            <div class="toolbar-nav" [ngClass]="{'is-phone-portrait': isPhonePortrait}">
                 <ul class="navigation-items">
                     <li>                
                         <a routerLink="/signup">

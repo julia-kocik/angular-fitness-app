@@ -28,6 +28,10 @@ a:hover, a:active {
     justify-content: flex-end;
 }
 
+.toolbar-nav.is-phone-portrait {
+   display: none;
+}
+
 .navigation-items {
     display: flex;
     list-style-type: none;
