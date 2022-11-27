@@ -13,7 +13,6 @@ import { NewTrainingComponent } from './training/new-training/new-training.compo
 import { PastTrainingComponent } from './training/past-training/past-training.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({

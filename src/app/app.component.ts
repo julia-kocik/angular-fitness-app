@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
           this.isTabletPortrait = true;
           this.isPhonePortrait = false;
         }
-      console.log(this.isPhonePortrait, this.isTabletPortrait)
-  });
+    });
   }
 }
