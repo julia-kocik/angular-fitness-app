@@ -1,7 +1,7 @@
 <mat-sidenav-container class="example-container">
     <mat-sidenav #sidenav role="navigation">
         <mat-nav-list (click)="sidenav.close()">
-            <a mat-list-item routerLink="/signup">
+            <a mat-list-item routerLink="/signup" [state]="{isPhonePortrait: isPhonePortrait}">
                 <mat-icon class="nav-icon">app_registration</mat-icon>
                 <span class="nav-caption">Signup</span>
             </a>
@@ -30,7 +30,7 @@
             <div class="toolbar-nav" [ngClass]="{'is-phone-portrait': isPhonePortrait}">
                 <ul class="navigation-items">
                     <li>                
-                        <a routerLink="/signup">Signup</a>
+                        <a routerLink="/signup" [state]="{isPhonePortrait: isPhonePortrait}">Signup</a>
                     </li>
                     <li>                
                         <a routerLink="/login">Login</a>
