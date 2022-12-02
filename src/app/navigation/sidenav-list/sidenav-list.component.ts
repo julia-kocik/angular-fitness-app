@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -7,6 +7,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SidenavListComponent {
   @Output() sidenavClose = new EventEmitter<void>()
+  @Input() isPhonePortrait: boolean = false
+  @Input() isTabletPortrait: boolean = false
   onCloseSidenav() {
     this.sidenavClose.emit();
   }
