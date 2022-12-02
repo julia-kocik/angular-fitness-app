@@ -1,0 +1,27 @@
+<mat-toolbar color="primary" class="toolbar-container">
+    <!-- <div class="toolbar-button" [ngClass]="{'is-phone-portrait': isPhonePortrait}" > -->
+        <div class="toolbar-button">
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <div class="toolbar-logo"><a routerLink="/">LOGO</a></div>
+    <!-- <div class="toolbar-nav" [ngClass]="{'is-phone-portrait': isPhonePortrait}"> -->
+    <div class="toolbar-nav">
+        <ul class="navigation-items">
+            <li>                
+                <!-- <a routerLink="/signup" [state]="{isPhonePortrait: isPhonePortrait}">Signup</a> -->
+                <a routerLink="/signup">Signup</a>
+            </li>
+            <li>                
+                <a routerLink="/login">Login</a>
+            </li>
+            <li>                
+                <a routerLink="/training">Training</a>
+            </li>
+            <li>
+                <a><mat-icon class="nav-icon">logout</mat-icon></a>
+            </li>
+        </ul>
+    </div>
+</mat-toolbar>

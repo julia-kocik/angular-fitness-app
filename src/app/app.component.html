@@ -1,49 +1,9 @@
 <mat-sidenav-container class="example-container">
     <mat-sidenav #sidenav role="navigation">
-        <mat-nav-list (click)="sidenav.close()">
-            <a mat-list-item routerLink="/signup" [state]="{isPhonePortrait: isPhonePortrait}">
-                <mat-icon class="nav-icon">app_registration</mat-icon>
-                <span class="nav-caption">Signup</span>
-            </a>
-            <a mat-list-item routerLink="/login">
-                <mat-icon class="nav-icon">login</mat-icon>
-                <span class="nav-caption">Login</span>
-            </a>
-            <a mat-list-item routerLink="/training">
-                <mat-icon class="nav-icon">fitness_center</mat-icon>
-                <span class="nav-caption">Training</span>
-            </a>
-            <a mat-list-item>
-                <mat-icon class="nav-icon">logout</mat-icon>
-                <span class="nav-caption">Logout</span>
-            </a>
-        </mat-nav-list>
+\        <app-sidenav-list (sidenavClose)="sidenav.close()"></app-sidenav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary" class="toolbar-container">
-            <div class="toolbar-button" [ngClass]="{'is-phone-portrait': isPhonePortrait}" >
-                <button mat-icon-button (click)="sidenav.toggle()">
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </div>
-            <div class="toolbar-logo"><a routerLink="/">LOGO</a></div>
-            <div class="toolbar-nav" [ngClass]="{'is-phone-portrait': isPhonePortrait}">
-                <ul class="navigation-items">
-                    <li>                
-                        <a routerLink="/signup" [state]="{isPhonePortrait: isPhonePortrait}">Signup</a>
-                    </li>
-                    <li>                
-                        <a routerLink="/login">Login</a>
-                    </li>
-                    <li>                
-                        <a routerLink="/training">Training</a>
-                    </li>
-                    <li>
-                        <a><mat-icon class="nav-icon">logout</mat-icon></a>
-                    </li>
-                </ul>
-            </div>
-        </mat-toolbar>
+        <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
         <main>
             <router-outlet></router-outlet>
         </main>
