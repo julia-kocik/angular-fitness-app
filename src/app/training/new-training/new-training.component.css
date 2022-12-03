@@ -13,4 +13,10 @@ mat-card {
   width: 400px;
   margin: 40px 0;
 }
-
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.start-training {
+  margin: 0 10px 10px 0;
+}
