@@ -5,7 +5,12 @@
   min-height: 80vh;
 }
 
+.is-phone-portrait {
+  width: 100%;
+}
+
 mat-card {
   width: 400px;
   margin: 40px 0;
 }
+
