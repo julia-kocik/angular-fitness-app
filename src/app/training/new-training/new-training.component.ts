@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ResponsiveService } from 'src/app/responsive.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { ResponsiveService } from 'src/app/responsive.service';
 export class NewTrainingComponent {
   isPhonePortrait: boolean = false;
   isTabletPortrait: boolean = false;
+  @Output() trainingStart = new EventEmitter<void>();
   constructor(private responsive: BreakpointObserver, private responsiveService: ResponsiveService) {}
   ngOnInit() {
     this.responsive.observe([
@@ -21,5 +22,10 @@ export class NewTrainingComponent {
         this.isPhonePortrait = resultValues.isPhonePortrait
         this.isTabletPortrait = resultValues.isTabletPortrait
     });
-}
+  }
+
+  onButtonClick() {
+    this.trainingStart.emit();
+  }
+
 }
