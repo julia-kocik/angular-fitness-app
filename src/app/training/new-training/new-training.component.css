@@ -1,0 +1,11 @@
+.new-training {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 80vh;
+}
+
+mat-card {
+  width: 400px;
+  margin: 40px 0;
+}
