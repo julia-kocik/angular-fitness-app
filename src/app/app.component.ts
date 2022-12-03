@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { ResponsiveService } from './responsive.service';
 
 @Component({
   selector: 'app-root',
@@ -12,23 +13,16 @@ export class AppComponent implements OnInit {
   isPhonePortrait = false;
   isTabletPortrait = false;
 
-  constructor(private responsive: BreakpointObserver) {}
+  constructor(private responsive: BreakpointObserver, private responsiveService: ResponsiveService) {}
   ngOnInit() {
     this.responsive.observe([
       Breakpoints.TabletPortrait,
       Breakpoints.HandsetPortrait])
       .subscribe(result => {
         const breakpoints = result.breakpoints;
-        if(!breakpoints[Breakpoints.HandsetPortrait] && !breakpoints[Breakpoints.TabletPortrait]) {
-          this.isTabletPortrait = false;
-          this.isPhonePortrait = false;
-        } else if (breakpoints[Breakpoints.HandsetPortrait]) {
-          this.isPhonePortrait = true;
-          this.isTabletPortrait = false;
-        } else if (breakpoints[Breakpoints.TabletPortrait]) {
-          this.isTabletPortrait = true;
-          this.isPhonePortrait = false;
-        }
+        const resultValues = this.responsiveService.checkDementions(breakpoints[Breakpoints.HandsetPortrait], breakpoints[Breakpoints.TabletPortrait])
+        this.isPhonePortrait = resultValues.isPhonePortrait
+        this.isTabletPortrait = resultValues.isTabletPortrait
     });
   }
 }

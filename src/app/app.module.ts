@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { ResponsiveService } from './responsive.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     FormsModule,
     ReactiveFormsModule,
   ],
+  providers: [ResponsiveService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
