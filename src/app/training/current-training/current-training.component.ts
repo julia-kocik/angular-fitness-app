@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./current-training.component.css']
 })
 export class CurrentTrainingComponent {
-
+ progress = 0;
+ constructor() {}
+ ngOnInit() {
+  setInterval(() => {
+    this.progress = this.progress +5
+  }, 1000)
+ }
 }
