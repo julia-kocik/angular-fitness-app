@@ -37,6 +37,10 @@ export class AuthService {
     return {...this.user};
   }
 
+  isAuth() {
+    return this.user != null;
+  }
+
   private authSuccessfully() {
     this.authChange.next(true);
     this.router.navigate(['/training'])
