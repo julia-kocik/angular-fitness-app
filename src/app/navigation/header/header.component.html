@@ -7,16 +7,16 @@
     <div class="toolbar-logo"><a routerLink="/">LOGO</a></div>
     <div class="toolbar-nav" [ngClass]="{'is-phone-portrait': isPhonePortrait}">
         <ul class="navigation-items">
-            <li>                
+            <li *ngIf="!isAuth">
                 <a routerLink="/signup">Signup</a>
             </li>
-            <li>                
+            <li *ngIf="!isAuth">
                 <a routerLink="/login">Login</a>
             </li>
-            <li>                
+            <li *ngIf="isAuth">
                 <a routerLink="/training">Training</a>
             </li>
-            <li>
+            <li *ngIf="isAuth">
                 <a><mat-icon class="nav-icon">logout</mat-icon></a>
             </li>
         </ul>
