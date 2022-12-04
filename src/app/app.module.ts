@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { ResponsiveService } from './responsive.service';
+import { StopTrainingComponent } from './training/current-training/stop-training.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ResponsiveService } from './responsive.service';
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
+    StopTrainingComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,7 @@ import { ResponsiveService } from './responsive.service';
     ReactiveFormsModule,
   ],
   providers: [ResponsiveService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [StopTrainingComponent]
 })
 export class AppModule { }
