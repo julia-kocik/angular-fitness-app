@@ -1,5 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Form, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResponsiveService } from 'src/app/responsive.service';
 import { Exercise } from '../exercise.model';
@@ -15,7 +16,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   isTabletPortrait: boolean = false;
   availableExercises: Exercise[] = [];
   subscription!: Subscription;
-  @Output() trainingStart = new EventEmitter<void>();
 
   constructor(
     private responsive: BreakpointObserver,
@@ -36,8 +36,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.availableExercises = this.trainingService.getAvailableExercises()
   }
 
-  onButtonClick() {
-    this.trainingStart.emit();
+  onButtonClick(form: NgForm) {
+    this.trainingService.startExercise(form.value.exercise)
   }
 
   ngOnDestroy() {
