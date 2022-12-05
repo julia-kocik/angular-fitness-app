@@ -2,7 +2,7 @@ import { Subject } from "rxjs";
 import { Exercise } from "./exercise.model";
 
 export class TrainingService {
-  exerciseChanged = new Subject<Exercise>();
+  exerciseChanged = new Subject<Exercise | null>();
 
   private availableExercises: Exercise[] = [
     { id: 'crunches', name: 'Crunches', duration: 30, calories: 8 },
@@ -11,7 +11,8 @@ export class TrainingService {
     { id: 'burpees', name: 'Burpees', duration: 60, calories: 8 }
   ]
 
-  private runningExercise: Exercise = this.availableExercises[0]
+  private runningExercise: any = null
+  private exercises: Exercise[] = [];
 
   getAvailableExercises() {
     return this.availableExercises.slice();
@@ -19,7 +20,29 @@ export class TrainingService {
 
   startExercise(selectedId: string) {
     const selected = this.availableExercises?.find(ex => ex.id === selectedId);
-    this.runningExercise = selected ? selected : this.availableExercises[0]
+    this.runningExercise = selected ? selected : null
     this.exerciseChanged.next({...this.runningExercise})
+  }
+
+  completeExercise() {
+    this.exercises.push({...this.runningExercise, date: Date(), state: 'completed'})
+    this.runningExercise = null;
+    this.exerciseChanged.next(null)
+  }
+
+  cancelExercise(progress: number) {
+    this.exercises.push(
+      {...this.runningExercise,
+        duration: this.runningExercise.duration * (progress/100),
+        calories: this.runningExercise.duration * (progress/100),
+        date: Date(),
+        state: 'cancelled'
+      })
+    this.runningExercise = null;
+    this.exerciseChanged.next(null)
+  }
+
+  getRunningExercise() {
+    return {...this.runningExercise};
   }
 }
