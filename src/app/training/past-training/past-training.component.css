@@ -1,0 +1,8 @@
+.filter-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+mat-form-field {
+  width: 400px;
+}
