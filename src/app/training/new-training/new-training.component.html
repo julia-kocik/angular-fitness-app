@@ -7,14 +7,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Favorite exercise</mat-label>
       <mat-select>
-        <mat-option value="crunches">
-          Crunches
-        </mat-option>
-        <mat-option value="running">
-          Running
-        </mat-option>
-        <mat-option value="walking">
-          Walking
+        <mat-option *ngFor="let exercise of availableExercises" [value]="exercise.id">
+          {{exercise.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
