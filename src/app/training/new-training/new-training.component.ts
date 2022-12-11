@@ -1,10 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form, NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ResponsiveService } from 'src/app/responsive.service';
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-new-training',
@@ -14,13 +15,14 @@ import { TrainingService } from '../training.service';
 export class NewTrainingComponent implements OnInit, OnDestroy {
   isPhonePortrait: boolean = false;
   isTabletPortrait: boolean = false;
-  availableExercises: Exercise[] = [];
+  availableExercises!: Observable<any>;
   subscription!: Subscription;
 
   constructor(
     private responsive: BreakpointObserver,
     private responsiveService: ResponsiveService,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private firestore: AngularFirestore
   ) {}
 
   ngOnInit() {
@@ -33,7 +35,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.isPhonePortrait = resultValues.isPhonePortrait
         this.isTabletPortrait = resultValues.isTabletPortrait
     });
-    this.availableExercises = this.trainingService.getAvailableExercises()
+
+    this.availableExercises = this.firestore.collection('availableExercises').valueChanges()
   }
 
   onButtonClick(form: NgForm) {
