@@ -7,11 +7,10 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class TrainingService {
   exerciseChanged = new Subject<Exercise | null>();
-  exercisesChanges = new Subject<Exercise[]>
+  exercisesChanges = new Subject<Exercise[]>();
+  finishedExercisesChanged = new Subject<Exercise[]>();
   private availableExercises: Exercise[] = [];
-
   private runningExercise: any = null;
-  private exercises: Exercise[] = [];
 
   constructor(private firestore: AngularFirestore) {}
 
@@ -44,7 +43,7 @@ export class TrainingService {
   }
 
   completeExercise() {
-    this.exercises.push({
+    this.addDataToDatabase({
       ...this.runningExercise,
       date: Date(),
       state: 'completed',
@@ -54,7 +53,7 @@ export class TrainingService {
   }
 
   cancelExercise(progress: number) {
-    this.exercises.push({
+    this.addDataToDatabase({
       ...this.runningExercise,
       duration: this.runningExercise.duration * (progress / 100),
       calories: this.runningExercise.calories * (progress / 100),
@@ -69,7 +68,16 @@ export class TrainingService {
     return { ...this.runningExercise };
   }
 
-  getCompletedOrCancelledExercises() {
-    return this.exercises.slice();
+  fetchCompletedOrCancelledExercises() {
+    this.firestore
+      .collection('finishedExercises')
+      .valueChanges()
+      .subscribe((exercises: any) => {
+        this.finishedExercisesChanged.next(exercises);
+    });
+  }
+
+  private addDataToDatabase(exercise: Exercise) {
+    this.firestore.collection('finishedExercises').add(exercise);
   }
 }
