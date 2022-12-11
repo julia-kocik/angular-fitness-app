@@ -1,12 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ResponsiveService } from 'src/app/responsive.service';
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-new-training',
@@ -16,14 +15,15 @@ import { map } from 'rxjs/operators';
 export class NewTrainingComponent implements OnInit, OnDestroy {
   isPhonePortrait: boolean = false;
   isTabletPortrait: boolean = false;
-  availableExercises!: Observable<Exercise[]>;
+  availableExercises!: Exercise[];
   subscription!: Subscription;
+  trainingSubscription!: Subscription;
+
 
   constructor(
     private responsive: BreakpointObserver,
     private responsiveService: ResponsiveService,
     private trainingService: TrainingService,
-    private firestore: AngularFirestore
   ) {}
 
   ngOnInit() {
@@ -37,17 +37,10 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.isTabletPortrait = resultValues.isTabletPortrait
     });
 
-    this.availableExercises = this.firestore.collection('availableExercises')
-    .snapshotChanges()
-    .pipe(map(docArray => {
-      return docArray.map(doc => {
-        const data = doc.payload.doc.data()
-        return {
-          ...data as Exercise,
-          id: doc.payload.doc.id
-        };
-      });
-    }))
+    this.trainingSubscription = this.trainingService.exercisesChanges.subscribe(
+      exercises => (this.availableExercises = exercises)
+    );
+    this.trainingService.fetchAvailableExercises();
   }
 
   onButtonClick(form: NgForm) {
@@ -56,5 +49,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.trainingSubscription.unsubscribe();
   }
 }
