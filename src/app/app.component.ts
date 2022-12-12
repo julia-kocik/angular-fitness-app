@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ResponsiveService } from './responsive.service';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,12 @@ export class AppComponent implements OnInit {
   isPhonePortrait = false;
   isTabletPortrait = false;
 
-  constructor(private responsive: BreakpointObserver, private responsiveService: ResponsiveService) {}
+  constructor(
+      private responsive: BreakpointObserver,
+      private responsiveService: ResponsiveService,
+      private authService: AuthService
+    ) {}
+
   ngOnInit() {
     this.responsive.observe([
       Breakpoints.TabletPortrait,
@@ -24,5 +30,7 @@ export class AppComponent implements OnInit {
         this.isPhonePortrait = resultValues.isPhonePortrait
         this.isTabletPortrait = resultValues.isTabletPortrait
     });
+
+    this.authService.initAuthListener();
   }
 }
