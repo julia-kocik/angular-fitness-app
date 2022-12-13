@@ -20,3 +20,9 @@ mat-card-actions {
 .start-training {
   margin: 0 10px 10px 0;
 }
+
+.is-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

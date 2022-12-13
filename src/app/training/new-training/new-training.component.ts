@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResponsiveService } from 'src/app/responsive.service';
+import { UIService } from 'src/app/shared/ui.service';
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
 
@@ -15,15 +16,17 @@ import { TrainingService } from '../training.service';
 export class NewTrainingComponent implements OnInit, OnDestroy {
   isPhonePortrait: boolean = false;
   isTabletPortrait: boolean = false;
+  isLoading: boolean = false;
   availableExercises!: Exercise[];
   subscription!: Subscription;
   trainingSubscription!: Subscription;
-
+  loadingSubscription!: Subscription;
 
   constructor(
     private responsive: BreakpointObserver,
     private responsiveService: ResponsiveService,
     private trainingService: TrainingService,
+    private uiService: UIService
   ) {}
 
   ngOnInit() {
@@ -38,8 +41,11 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     });
 
     this.trainingSubscription = this.trainingService.exercisesChanges.subscribe(
-      exercises => (this.availableExercises = exercises)
+      exercises => this.availableExercises = exercises
     );
+    this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(
+      isLoading => this.isLoading = isLoading
+    )
     this.trainingService.fetchAvailableExercises();
   }
 
@@ -50,5 +56,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.trainingSubscription.unsubscribe();
+    this.loadingSubscription.unsubscribe();
   }
 }
