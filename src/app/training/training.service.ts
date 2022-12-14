@@ -9,7 +9,7 @@ import { UIService } from '../shared/ui.service';
 @Injectable()
 export class TrainingService {
   exerciseChanged = new Subject<Exercise | null>();
-  exercisesChanges = new Subject<Exercise[]>();
+  exercisesChanges= new Subject<any>();
   finishedExercisesChanged = new Subject<Exercise[]>();
   private availableExercises: Exercise[] = [];
   private runningExercise: any = null;
@@ -32,11 +32,19 @@ export class TrainingService {
             };
           });
         })
-      ).subscribe((exercises: Exercise[]) => {
+      ).subscribe({
+        next: (exercises: Exercise[]) => {
         this.availableExercises = exercises
         this.uiService.loadingStateChanged.next(false)
         this.exercisesChanges.next([...this.availableExercises]);
-      }))
+        },
+        error: () => {
+          this.uiService.loadingStateChanged.next(false)
+          this.uiService.showSnackbar('Fetching failed please try again...', undefined, 3000)
+          this.exercisesChanges.next(null);
+        }
+      }
+      ))
   }
 
   startExercise(selectedId: string) {
