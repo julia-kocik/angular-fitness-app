@@ -1,5 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ResponsiveService } from '../responsive.service';
 
 @Component({
@@ -7,13 +8,13 @@ import { ResponsiveService } from '../responsive.service';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, OnDestroy {
   isPhonePortrait: boolean = false;
   isTabletPortrait: boolean = false;
-
+  private subscription!: Subscription;
     constructor(private responsive: BreakpointObserver, private responsiveService: ResponsiveService) {}
     ngOnInit() {
-      this.responsive.observe([
+      this.subscription = this.responsive.observe([
         Breakpoints.TabletPortrait,
         Breakpoints.HandsetPortrait])
         .subscribe(result => {
@@ -22,5 +23,10 @@ export class WelcomeComponent implements OnInit {
           this.isPhonePortrait = resultValues.isPhonePortrait
           this.isTabletPortrait = resultValues.isTabletPortrait
       });
+  }
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

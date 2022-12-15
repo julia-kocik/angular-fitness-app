@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ResponsiveService } from './responsive.service';
 import { AuthService } from './auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,11 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'angular-fitness-app';
   isPhonePortrait = false;
   isTabletPortrait = false;
+  private respSub!: Subscription
 
   constructor(
       private responsive: BreakpointObserver,
@@ -21,7 +23,7 @@ export class AppComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.responsive.observe([
+    this.respSub = this.responsive.observe([
       Breakpoints.TabletPortrait,
       Breakpoints.HandsetPortrait])
       .subscribe(result => {
@@ -32,5 +34,11 @@ export class AppComponent implements OnInit {
     });
 
     this.authService.initAuthListener();
+  }
+
+  ngOnDestroy(): void {
+    if (this.respSub) {
+      this.respSub.unsubscribe();
+    }
   }
 }
