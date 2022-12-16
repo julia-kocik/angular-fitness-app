@@ -6,6 +6,8 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { TrainingService } from "../training/training.service";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UIService } from "../shared/ui.service";
+import { Store } from "@ngrx/store";
+import * as fromApp from '../app.reducer';
 
 @Injectable()
 export class AuthService {
@@ -16,18 +18,21 @@ export class AuthService {
       private router: Router,
       private afAuth: AngularFireAuth,
       private trainingService: TrainingService,
-      private snackBar: MatSnackBar,
-      private uiService: UIService
+      private uiService: UIService,
+      private store: Store<{ui: fromApp.State}>
     ) {}
 
   register(authData: AuthData) {
-    this.uiService.loadingStateChanged.next(true);
+    // this.uiService.loadingStateChanged.next(true);
+    this.store.dispatch({ type: 'START_LOADING' });
     this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
     .then(result => {
-      this.uiService.loadingStateChanged.next(false);
+      // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({ type: 'STOP_LOADING' });
     })
     .catch(error => {
-      this.uiService.loadingStateChanged.next(false);
+      // this.uiService.loadingStateChanged.next(false);
+      this.store.dispatch({ type: 'STOP_LOADING' });
       this.uiService.showSnackbar(error.message, undefined, 3000)
     })
   }
