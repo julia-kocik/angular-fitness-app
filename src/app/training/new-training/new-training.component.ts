@@ -1,11 +1,13 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ResponsiveService } from 'src/app/responsive.service';
 import { UIService } from 'src/app/shared/ui.service';
 import { Exercise } from '../exercise.model';
 import { TrainingService } from '../training.service';
+import * as fromRoot from '../../app.reducer';
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -20,13 +22,14 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   availableExercises!: Exercise[];
   subscription!: Subscription;
   trainingSubscription!: Subscription;
-  loadingSubscription!: Subscription;
+  isLoading$!: Observable<boolean>;
 
   constructor(
     private responsive: BreakpointObserver,
     private responsiveService: ResponsiveService,
     private trainingService: TrainingService,
-    private uiService: UIService
+    private uiService: UIService,
+    private store: Store<{ui: fromRoot.State}>
   ) {}
 
   ngOnInit() {
@@ -43,9 +46,11 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.trainingSubscription = this.trainingService.exercisesChanges.subscribe(
       exercises => this.availableExercises = exercises
     );
-    this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(
-      isLoading => this.isLoading = isLoading
-    )
+    // this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(
+    //   isLoading => this.isLoading = isLoading
+    // )
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading)
+
     this.fetchAvailableExercises()
   }
 
@@ -63,9 +68,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     }
     if (this.trainingSubscription) {
       this.trainingSubscription.unsubscribe();
-    }
-    if (this.loadingSubscription) {
-      this.loadingSubscription.unsubscribe();
     }
   }
 }
