@@ -7,16 +7,16 @@
     <div class="toolbar-logo"><a routerLink="/">NG Fitness</a></div>
     <div class="toolbar-nav" [ngClass]="{'is-phone-portrait': isPhonePortrait}">
         <ul class="navigation-items">
-            <li *ngIf="!isAuth">
+            <li *ngIf="!(isAuth$ | async)">
                 <a routerLink="/signup">Signup</a>
             </li>
-            <li *ngIf="!isAuth">
+            <li *ngIf="!(isAuth$ | async)">
                 <a routerLink="/login">Login</a>
             </li>
-            <li *ngIf="isAuth">
+            <li *ngIf="isAuth$ | async">
                 <a routerLink="/training">Training</a>
             </li>
-            <li *ngIf="isAuth">
+            <li *ngIf="isAuth$ | async">
                 <a><mat-icon class="nav-icon" (click)="onLogOut()">logout</mat-icon></a>
             </li>
         </ul>
