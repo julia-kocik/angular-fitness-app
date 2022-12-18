@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { ResponsiveService } from 'src/app/responsive.service';
-import { UIService } from 'src/app/shared/ui.service';
 import { Exercise } from '../exercise.model';
-import { TrainingService } from '../training.service';
+import * as fromTraining from '../../training/training.reducer';
 import * as fromRoot from '../../app.reducer';
-import { Store } from '@ngrx/store';
+import { TrainingService } from '../training.service';
 
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-new-training',
@@ -18,18 +18,16 @@ import { Store } from '@ngrx/store';
 export class NewTrainingComponent implements OnInit, OnDestroy {
   isPhonePortrait: boolean = false;
   isTabletPortrait: boolean = false;
-  isLoading: boolean = false;
-  availableExercises!: Exercise[];
+  availableExercises$!: Observable<Exercise[]>;
+
   subscription!: Subscription;
-  trainingSubscription!: Subscription;
   isLoading$!: Observable<boolean>;
 
   constructor(
     private responsive: BreakpointObserver,
     private responsiveService: ResponsiveService,
-    private trainingService: TrainingService,
-    private uiService: UIService,
-    private store: Store<{ui: fromRoot.State}>
+    private store: Store<fromTraining.State>,
+    private trainingService: TrainingService
   ) {}
 
   ngOnInit() {
@@ -43,14 +41,11 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.isTabletPortrait = resultValues.isTabletPortrait
     });
 
-    this.trainingSubscription = this.trainingService.exercisesChanges.subscribe(
-      exercises => this.availableExercises = exercises
-    );
     // this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(
     //   isLoading => this.isLoading = isLoading
     // )
     this.isLoading$ = this.store.select(fromRoot.getIsLoading)
-
+    this.availableExercises$ = this.store.select(fromTraining.getAvailable)
     this.fetchAvailableExercises()
   }
 
@@ -65,9 +60,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-    if (this.trainingSubscription) {
-      this.trainingSubscription.unsubscribe();
     }
   }
 }
