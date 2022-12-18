@@ -42,7 +42,7 @@ export class AuthService {
       console.log(user?.uid)
       if(user) {
         // this.isAuthenticated = true;
-        this.store.dispatch(new Auth.SetAuthenticated())
+        this.store.dispatch(new Auth.SetAuthenticated(user?.uid))
         // this.authChange.next(true);
         this.router.navigate(['/training'])
       } else {
