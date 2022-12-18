@@ -1,6 +1,6 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Subject, take } from 'rxjs';
+import { take } from 'rxjs';
 import { Exercise } from './exercise.model';
 import { map } from 'rxjs';
 import { Subscription } from 'rxjs';
@@ -14,9 +14,6 @@ import * as fromRoot from '../app.reducer';
 
 @Injectable()
 export class TrainingService {
-  exerciseChanged = new Subject<Exercise | null>();
-  exercisesChanges= new Subject<any>();
-  finishedExercisesChanged = new Subject<Exercise[]>();
   private fbSubs: Subscription[] = [];
   userid: string = '';
 
@@ -32,7 +29,6 @@ export class TrainingService {
   }
 
   fetchAvailableExercises() {
-    // this.uiService.loadingStateChanged.next(true)
     this.store.dispatch(new UI.StartLoading());
 
     this.fbSubs.push(this.firestore
@@ -50,14 +46,10 @@ export class TrainingService {
         })
       ).subscribe({
         next: (exercises: Exercise[]) => {
-        // this.availableExercises = exercises
-        // this.uiService.loadingStateChanged.next(false)
         this.store.dispatch(new UI.StopLoading());
-        // this.exercisesChanges.next([...this.availableExercises]);
         this.store.dispatch(new Training.SetAvailable(exercises));
         },
         error: () => {
-          // this.uiService.loadingStateChanged.next(false)
           this.store.dispatch(new UI.StopLoading());
           this.uiService.showSnackbar('Fetching failed please try again...', undefined, 3000)
         }

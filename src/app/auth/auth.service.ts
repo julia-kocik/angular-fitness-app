@@ -22,15 +22,12 @@ export class AuthService {
     ) {}
 
   register(authData: AuthData) {
-    // this.uiService.loadingStateChanged.next(true);
     this.store.dispatch(new UI.StartLoading());
     this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
     .then(result => {
-      // this.uiService.loadingStateChanged.next(false);
       this.store.dispatch(new UI.StopLoading());
     })
     .catch(error => {
-      // this.uiService.loadingStateChanged.next(false);
       this.store.dispatch(new UI.StopLoading());
       this.uiService.showSnackbar(error.message, undefined, 3000)
     })
@@ -38,17 +35,12 @@ export class AuthService {
 
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
-      //tutaj
-      console.log(user?.uid)
+      // console.log(user?.uid)
       if(user) {
-        // this.isAuthenticated = true;
         this.store.dispatch(new Auth.SetAuthenticated(user?.uid))
-        // this.authChange.next(true);
         this.router.navigate(['/training'])
       } else {
         this.trainingService.cancelSubs();
-        // this.authChange.next(false);
-        // this.isAuthenticated = false
         this.store.dispatch(new Auth.StopUnauthenticated())
         this.router.navigate(['/login'])
       }
@@ -56,17 +48,14 @@ export class AuthService {
   }
 
   login(authData: AuthData) {
-    // this.uiService.loadingStateChanged.next(true);
     this.store.dispatch(new UI.StartLoading());
     this.afAuth
     .signInWithEmailAndPassword(authData.email, authData.password)
     .then(result => {
-      // this.uiService.loadingStateChanged.next(false);
       this.store.dispatch(new UI.StopLoading());
     })
     .catch(error => {
       this.store.dispatch(new UI.StopLoading());
-      // this.uiService.loadingStateChanged.next(false);
       this.uiService.showSnackbar(error.message, undefined, 3000)
     })
   }
@@ -74,5 +63,4 @@ export class AuthService {
   logout() {
     this.afAuth.signOut();
   }
-
 }

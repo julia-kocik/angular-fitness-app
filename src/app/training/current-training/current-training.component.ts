@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TrainingService } from '../training.service';
 import { StopTrainingComponent } from './stop-training.component';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as fromTraining from '../training.reducer';
 import { take } from 'rxjs';
 

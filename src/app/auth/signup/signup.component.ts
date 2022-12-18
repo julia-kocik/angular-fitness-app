@@ -19,10 +19,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService, private uiService: UIService, private store: Store<{ui: fromRoot.State}>) {}
   ngOnInit() {
     this.isLoading$ = this.store.select(fromRoot.getIsLoading)
-
-    // this.loadingSubs = this.uiService.loadingStateChanged.subscribe(isLoading => {
-    //   this.isLoading = isLoading
-    // })
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear()-18);
   }

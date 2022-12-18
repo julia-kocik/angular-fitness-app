@@ -41,9 +41,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.isTabletPortrait = resultValues.isTabletPortrait
     });
 
-    // this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(
-    //   isLoading => this.isLoading = isLoading
-    // )
     this.isLoading$ = this.store.select(fromRoot.getIsLoading)
     this.availableExercises$ = this.store.select(fromTraining.getAvailable)
     this.fetchAvailableExercises()
