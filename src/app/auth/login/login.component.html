@@ -5,7 +5,7 @@
             <mat-error *ngIf="userName?.errors?.['required']">Field must not be empty</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input id="password" required type="text" matInput formControlName="password" placeholder="Password">
+            <input id="password" required type="password" matInput formControlName="password" placeholder="Password">
             <mat-error *ngIf="password?.errors?.['required']">Field must not be empty</mat-error>
         </mat-form-field>
         <button *ngIf="!(isLoading$ | async)" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Submit</button>
