@@ -1,5 +1,5 @@
 # AngularFitnessApp
-
+https://ng-fitness-app-2ae67.web.app/
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
 ## Development server
